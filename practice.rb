@@ -27,3 +27,25 @@ blockchain = [
 # Anthony's KelloggCoin balance is 2650
 
 # 👇👇👇 Your code HERE 👇👇👇
+accounts = Hash.new
+blockchain.each do |entry|
+  origin = entry["from_user"]
+  recipient = entry["to_user"]
+  amount = entry["amount"]
+
+  # Subtract from origin account
+  if !origin.nil?
+    #@NOTE: assuming accounts can never have a negative balance
+    accounts[origin] -= amount
+  end
+
+  if !accounts.has_key?(recipient)
+    # Initialize the receiver's account
+    accounts[recipient] = 0
+  end
+  accounts[recipient] += amount
+end
+
+accounts.each do |name, amount|
+  puts "#{name.capitalize}'s KelloggCoin balance is #{amount}"
+end
